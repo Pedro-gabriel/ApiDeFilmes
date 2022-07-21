@@ -1,5 +1,7 @@
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -23,10 +25,15 @@ public class main {
         List<Map<String, String>> listaDFilmes = parser.parse(body);
 
         //Exibir
+        var geradora = new Figurinhas();
         for(Map<String, String> filme : listaDFilmes){
-            System.out.println(filme.get("title"));
-            System.out.println(filme.get("image"));
-            System.out.println(filme.get("imDbRating"));
+            String urlImagem = filme.get("image");
+            String titulo = filme.get("title");
+
+            InputStream inputStream = new URL(urlImagem).openStream();
+            String nomeArquivo = titulo + ".png";
+
+            geradora.criarFigurinha(inputStream, nomeArquivo);
         }
 
     }
